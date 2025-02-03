@@ -7,7 +7,7 @@
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint . --fix",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "coverage": "jest --coverage",
     "preshow:coverage": "npm run coverage",
     "show:coverage": "live-server coverage/lcov-report",
@@ -44,5 +44,8 @@
   "bugs": {
     "url": "https://github.com/Nazgulius/ahj-homeworks-dnd-trello/issues"
   },
-  "homepage": "https://github.com/Nazgulius/ahj-homeworks-dnd-trello#readme"
+  "homepage": "https://github.com/Nazgulius/ahj-homeworks-dnd-trello#readme",
+  "dependencies": {
+    "md-converter": "^1.0.3"
+  }
 }
