@@ -13,18 +13,19 @@ body {
 .main {
   display: flex;
   flex-direction: row;  
-  justify-content: space-evenly;
-  
+  justify-content: center;
+  padding: 20px;  
 }
 
 .trello-list {
-  width: 30%;
+  width: 300px;
   background-color: rgb(226, 226, 226);
   padding: 10px;
+  margin: 20px;
 }
 
 .overlapped {
-  /* position: absolute; */
+  position: absolute;
   top: 0; left: 0; bottom: 0; right: 0; margin: 0;
   opacity: 0.1;
   width: 10%;
@@ -32,7 +33,7 @@ body {
 }
 
 .overlap {
-  /* position: absolute; */
+  position: absolute;
   top: 0; left: 0; bottom: 0; right: 0; margin: 0;
   width: 10%;
   height: 10%;
@@ -58,9 +59,9 @@ body {
 
 .items {
   padding: 0px;
+  margin: 0;
   background-color: rgb(226, 226, 226);
   list-style-type: none;
-  margin: 0;
 }
 
 .items-item {
@@ -69,16 +70,7 @@ body {
   padding: 10px;
   margin-bottom: -1px;
   cursor: pointer;
-}
-
-.items-item:first-child {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.items-item:last-child {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 5px;
 }
 
 .items-item.dragged {
@@ -87,6 +79,17 @@ body {
   z-index: 999;
   pointer-events: none;
   background: #fff;
+}
+
+.form {
+  width: 286px;
+  height: auto;
+  margin-top: 10px
+}
+
+.form-input {
+  width: 286px;
+  height: 30px;
 }
 
 .btn-add-card {
