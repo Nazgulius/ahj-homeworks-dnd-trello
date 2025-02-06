@@ -53,6 +53,7 @@ function clearForm() {
   textCard.value = '';
 }
 
+
 if(document.querySelector('items-item')) {
 
   document.querySelector('items-item').addEventListener('mouseover', () => {  
@@ -68,44 +69,107 @@ if(document.querySelector('items-item')) {
 
 
 
-const items = document.querySelector('.items');
+const itemsAll = document.querySelectorAll('.items');
 
-const itemsElements = items.querySelector('.items-item');
+
+const itemsElements = document.querySelectorAll('.items-item');
 
 let actualElement;
-
-const onMouseOver = (e) => {
-    console.log(e);
-
-    actualElement.style.top = e.clientY + 'px';
-    actualElement.style.left = e.clientX + 'px';
-    
-};
-
-const onMouseUp = (e) => {
-    const mouseUpItem = e.target;
-
-    items.insertBefore(actualElement, mouseUpItem);
-
-    actualElement.style.top = 0;
-    actualElement.style.left = 0;
-    
-    actualElement.classList.remove('dragged');
-    actualElement = undefined;
-
-    document.documentElement.removeEventListener('mouseup', onMouseUp);
-    document.documentElement.removeEventListener('mouseover', onMouseOver);
-};
+let offsetX = 0; // Смещение по X  
+let offsetY = 0; // Смещение по Y  
+let initialX = 0; // Начальная позиция по X  
+let initialY = 0; // Начальная позиция по Y  
 
 
-
-items.addEventListener('mousedown', (e) => {
+itemsAll.forEach((items) => {
+  items.addEventListener('mousedown', (e) => {
     e.preventDefault();
     console.log(e);
-    actualElement = e.target;
-    
+    actualElement = e.target;      
     actualElement.classList.add('dragged');
+
+
+    // Вычисляем начальную позицию в момент нажатия  
+    const rect = actualElement.getBoundingClientRect();   
+    offsetX = e.clientX - rect.left;  
+    offsetY = e.clientY - rect.top;  
+
+    // Устанавливаем начальную позицию  
+    initialX = rect.left;  
+    initialY = rect.top;  
+
+
+
+
+    // Получаем смещение между курсором и верхним левым углом элемента  
+    // offsetX = e.clientX - actualElement.getBoundingClientRect().left;  
+    // offsetY = e.clientY - actualElement.getBoundingClientRect().top; 
 
     document.documentElement.addEventListener('mouseup', onMouseUp);
     document.documentElement.addEventListener('mouseover', onMouseOver);
+  });
+});
+
+const onMouseOver = (e) => {
+  if (!actualElement) return;
+
+  // const mouseOverItem = e.target;  
+
+
+  // Устанавливаем новую позицию  
+  const newX = e.clientX - offsetX;  
+  const newY = e.clientY - offsetY;  
+
+  actualElement.style.transform = `translate(${newX}px, ${newY}px)`;  
+
+  // // Установка позиции элемента по координатам курсора  
+  // actualElement.style.top = (e.clientY - offsetY) + 'px';  
+  // actualElement.style.left = (e.clientX - offsetX) + 'px';  
+
+  // actualElement.style.top = (e.clientY - actualElement.offsetHeight / 2) + 'px';  
+  // actualElement.style.left = (e.clientX - actualElement.offsetWidth / 2) + 'px';
+  
+  // Устанавливаем позицию с помощью transform  
+  // actualElement.style.transform = `translate(${e.clientX - offsetX}px, ${e.clientY - offsetY}px)`;  
+};
+
+const onMouseUp = (e) => {
+  if (!actualElement) return;
+  const mouseUpItem = document.elementFromPoint(e.clientX, e.clientY);  
+  const targetColumn = mouseUpItem ? mouseUpItem.closest('.items') : null; 
+
+  if (targetColumn) {  
+    targetColumn.insertBefore(actualElement, mouseUpItem); 
+  } 
+ 
+  // Проверяем, есть ли родительский элемент, содержащий нужный класс  
+  // if (mouseUpItem) {
+  //   const targetColumn = mouseUpItem.closest('.items'); 
+    
+  //   if (targetColumn) {  
+  //     // Добавляем элемент в целевой столбец   
+  //     targetColumn.insertBefore(actualElement, mouseUpItem);  
+  //   }  
+  // } 
+
+  // Сброс стилей и завершение перетаскивания  
+  actualElement.style.transform = '';  
+  // actualElement.style.top = '';  
+  // actualElement.style.left = '';  
+  actualElement.classList.remove('dragged');  
+  actualElement = null; // Сбрасываем текущий элемент  
+  
+  document.documentElement.removeEventListener('mouseup', onMouseUp);
+  document.documentElement.removeEventListener('mouseover', onMouseOver);
+};
+
+
+itemsElements.forEach((el) => {
+  el.addEventListener('mouseover', (e) => {
+    el.querySelector('.btn-item-close').classList.remove('disable');
+  });
+
+  el.addEventListener('mouseout', (e) => {
+    el.querySelector('.btn-item-close').classList.add('disable');
+  });
 });
