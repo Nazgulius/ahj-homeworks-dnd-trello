@@ -26,8 +26,12 @@ addAnotherForm.addEventListener('click', (e) => {
 // добавляет элемент в список
 addItem.addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('click');
-  //addCard();
+  if(textCard.value === '') {
+    formAdd.classList.add('disable'); // прячем форму
+    addAnotherForm.classList.remove('disable'); // показываем кнопку    
+    return;
+  };
+
   card.createCard();
 
   formAdd.classList.add('disable'); // прячем форму
@@ -38,25 +42,31 @@ addItem.addEventListener('click', (e) => {
 // закрывает форму
 formClose.addEventListener('click', (e) => {
   e.preventDefault();
-  console.log('close');
   
   formAdd.classList.add('disable'); // прячем форму
   addAnotherForm.classList.remove('disable'); // показываем кнопку
   clearForm();
 });
 
-// метод добавления элемента в список
-function addCard() {  
-  const li = document.createElement('li');
-  li.className = 'items-item';
-  li.textContent = textCard.value;
-  document.querySelector('.items').appendChild(li);  
-}
-
 // очищает форму
 function clearForm() {
   textCard.value = '';
 }
+
+if(document.querySelector('items-item')) {
+
+  document.querySelector('items-item').addEventListener('mouseover', () => {  
+    console.log('mouseover');
+    document.querySelector('btn-item-close').classList.remove('disable');  
+  });  
+  
+  document.querySelector('items-item').addEventListener('mouseout', () => { 
+    console.log('mouseout'); 
+    document.querySelector('btn-item-close').classList.add('disable');  
+  }); 
+}
+
+
 
 
 

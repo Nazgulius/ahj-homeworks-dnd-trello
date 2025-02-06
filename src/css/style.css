@@ -65,6 +65,7 @@ body {
 }
 
 .items-item {
+  position: relative; 
   background-color: rgb(255, 255, 255);
   border: 1px solid #999;
   padding: 10px;
@@ -95,6 +96,7 @@ body {
 .btn-add {
   margin-top: 3px;
 }
+
 .btn-add-form {
   margin-top: 10px;
 }
@@ -105,4 +107,10 @@ body {
 
 .disable {
   display: none;
+}
+
+.btn-item-close {
+  position: absolute;  
+  top: 3px;
+  right: 3px;
 }
