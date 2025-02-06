@@ -82,7 +82,7 @@ body {
 }
 
 .form {
-  width: 286px;
+  width: 280px;
   height: auto;
   margin-top: 10px
 }
@@ -92,6 +92,17 @@ body {
   height: 30px;
 }
 
-.btn-add-card {
+.btn-add {
+  margin-top: 3px;
+}
+.btn-add-form {
   margin-top: 10px;
+}
+
+.form-textarea {
+  resize: none;
+}
+
+.disable {
+  display: none;
 }
