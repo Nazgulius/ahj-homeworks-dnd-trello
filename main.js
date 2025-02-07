@@ -827,10 +827,30 @@ class Card {
     li.textContent = document.querySelector('.form-textarea').value;
     const close = document.createElement('button');
     close.className = 'btn-item-close disable';
-    li.textContent = 'x';
+    close.textContent = 'x';
+
+    // вешанье слушателя при создании элемента
+    li.addEventListener('mouseover', e => {
+      li.querySelector('.btn-item-close').classList.remove('disable');
+    });
+    li.addEventListener('mouseout', e => {
+      li.querySelector('.btn-item-close').classList.add('disable');
+    });
+
+    // слушатель на удаление элемента
+    li.addEventListener('mouseup', e => {
+      //e.stopPropagation(); 
+      if (e.target.matches('.btn-item-close')) {
+        if (li) {
+          li.remove();
+        }
+      }
+    });
     li.appendChild(close);
     document.querySelector('.items').appendChild(li);
   }
+
+  // в видео было упоминание о необходимости такого метода, у меня он уехал в app.js
   deleteCard() {}
 }
 ;// ./src/js/app.js
@@ -838,18 +858,61 @@ class Card {
 
 
 
-const app_form = new Form();
-const trelloList = document.querySelector('.trello-list');
-trelloList.appendChild(app_form.createForm()); // добавляем форму
 
+// создание формы
+const app_form = new Form();
+const trelloListAll = document.querySelectorAll('.trello-list');
+trelloListAll.forEach(el => {
+  el.appendChild(app_form.createForm()); // добавляем форму  
+});
 const card = new Card();
 const addAnotherForm = document.querySelector('.btn-add-form');
+const addAnotherFormAll = document.querySelectorAll('.btn-add-form');
 const addItem = document.querySelector('.btn-add');
 const formClose = document.querySelector('.btn-add-close');
 const formAdd = document.querySelector('.form');
 const textCard = document.querySelector('.form-textarea');
 
-// показать форму
+// в этом блоке я пытался реализовать добавление слушателей на каждую форму с кнопками, 
+// под каждым блоком. Неполучилось.
+
+// addAnotherFormAll.forEach((el) => {
+//   // показать форму  
+//   el.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     const formAdd = document.querySelector('.form');
+
+//     formAdd.classList.remove('disable'); // показываем форму
+//     el.classList.add('disable'); // прячем кнопку
+//   });
+// });
+
+// добавляет элемент в список
+// addItem.addEventListener('click', (e) => {
+//   e.preventDefault();
+//   if (textCard.value === '') {
+//     formAdd.classList.add('disable'); // прячем форму
+//     addAnotherForm.classList.remove('disable'); // показываем кнопку    
+//     return;
+//   };
+
+//   card.createCard();
+
+//   formAdd.classList.add('disable'); // прячем форму
+//   addAnotherForm.classList.remove('disable'); // показываем кнопку
+//   clearForm();
+// });
+
+// // закрывает форму
+// formClose.addEventListener('click', (e) => {
+//   e.preventDefault();
+
+//   formAdd.classList.add('disable'); // прячем форму
+//   addAnotherForm.classList.remove('disable'); // показываем кнопку
+//   clearForm();
+// });
+
+// // показать форму
 addAnotherForm.addEventListener('click', e => {
   e.preventDefault();
   formAdd.classList.remove('disable'); // показываем форму
@@ -883,6 +946,8 @@ formClose.addEventListener('click', e => {
 function clearForm() {
   textCard.value = '';
 }
+
+// блок с перемещением элементов внутри main
 const itemsAll = document.querySelectorAll('.items');
 const itemsElements = document.querySelectorAll('.items-item');
 let actualElement;
@@ -937,12 +1002,33 @@ const onMouseUp = e => {
   document.documentElement.removeEventListener('mouseup', onMouseUp);
   document.documentElement.removeEventListener('mouseover', onMouseOver);
 };
+
+// показываем или скрываем кнопку закрытия
+// itemsAll.forEach((el) => {
 itemsElements.forEach(el => {
-  el.addEventListener('mouseover', e => {
-    el.querySelector('.btn-item-close').classList.remove('disable');
+  el.addEventListener('mouseenter', e => {
+    if (e.target.matches('.items-item') || e.target.closest('.items-item')) {
+      e.target.querySelector('.btn-item-close').classList.remove('disable');
+    }
   });
-  el.addEventListener('mouseout', e => {
-    el.querySelector('.btn-item-close').classList.add('disable');
+  el.addEventListener('mouseleave', e => {
+    if (e.target.matches('.items-item') || e.target.closest('.items-item')) {
+      e.target.querySelector('.btn-item-close').classList.add('disable');
+    }
+  });
+});
+
+// Удаляем элемент по клику
+// itemsAll.forEach((el) => {
+itemsElements.forEach(el => {
+  el.addEventListener('mouseup', e => {
+    // команда e.stopPropagation(); позволяет удалять и кнопки с X, но тогда ломается перемещение элементов.
+    // e.stopPropagation(); 
+    if (e.target.matches('.btn-item-close')) {
+      if (el) {
+        el.remove();
+      }
+    }
   });
 });
 ;// ./src/index.js
