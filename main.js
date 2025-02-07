@@ -825,9 +825,11 @@ class Card {
     const li = document.createElement('li');
     li.className = 'items-item';
     li.textContent = document.querySelector('.form-textarea').value;
-    document.querySelector('.items').appendChild(li);
     const close = document.createElement('button');
     close.className = 'btn-item-close disable';
+    li.textContent = 'x';
+    li.appendChild(close);
+    document.querySelector('.items').appendChild(li);
   }
   deleteCard() {}
 }
@@ -881,16 +883,6 @@ formClose.addEventListener('click', e => {
 function clearForm() {
   textCard.value = '';
 }
-if (document.querySelector('items-item')) {
-  document.querySelector('items-item').addEventListener('mouseover', () => {
-    console.log('mouseover');
-    document.querySelector('btn-item-close').classList.remove('disable');
-  });
-  document.querySelector('items-item').addEventListener('mouseout', () => {
-    console.log('mouseout');
-    document.querySelector('btn-item-close').classList.add('disable');
-  });
-}
 const itemsAll = document.querySelectorAll('.items');
 const itemsElements = document.querySelectorAll('.items-item');
 let actualElement;
@@ -902,7 +894,6 @@ let initialY = 0; // Начальная позиция по Y
 itemsAll.forEach(items => {
   items.addEventListener('mousedown', e => {
     e.preventDefault();
-    console.log(e);
     actualElement = e.target;
     actualElement.classList.add('dragged');
 
@@ -914,11 +905,6 @@ itemsAll.forEach(items => {
     // Устанавливаем начальную позицию  
     initialX = rect.left;
     initialY = rect.top;
-
-    // Получаем смещение между курсором и верхним левым углом элемента  
-    // offsetX = e.clientX - actualElement.getBoundingClientRect().left;  
-    // offsetY = e.clientY - actualElement.getBoundingClientRect().top; 
-
     document.documentElement.addEventListener('mouseup', onMouseUp);
     document.documentElement.addEventListener('mouseover', onMouseOver);
   });
@@ -926,22 +912,13 @@ itemsAll.forEach(items => {
 const onMouseOver = e => {
   if (!actualElement) return;
 
-  // const mouseOverItem = e.target;  
-
   // Устанавливаем новую позицию  
   const newX = e.clientX - offsetX;
   const newY = e.clientY - offsetY;
-  actualElement.style.transform = `translate(${newX}px, ${newY}px)`;
 
-  // // Установка позиции элемента по координатам курсора  
-  // actualElement.style.top = (e.clientY - offsetY) + 'px';  
-  // actualElement.style.left = (e.clientX - offsetX) + 'px';  
-
-  // actualElement.style.top = (e.clientY - actualElement.offsetHeight / 2) + 'px';  
-  // actualElement.style.left = (e.clientX - actualElement.offsetWidth / 2) + 'px';
-
-  // Устанавливаем позицию с помощью transform  
-  // actualElement.style.transform = `translate(${e.clientX - offsetX}px, ${e.clientY - offsetY}px)`;  
+  // Установка позиции элемента  
+  actualElement.style.left = `${newX}px`;
+  actualElement.style.top = `${newY}px`;
 };
 const onMouseUp = e => {
   if (!actualElement) return;
@@ -951,20 +928,9 @@ const onMouseUp = e => {
     targetColumn.insertBefore(actualElement, mouseUpItem);
   }
 
-  // Проверяем, есть ли родительский элемент, содержащий нужный класс  
-  // if (mouseUpItem) {
-  //   const targetColumn = mouseUpItem.closest('.items'); 
-
-  //   if (targetColumn) {  
-  //     // Добавляем элемент в целевой столбец   
-  //     targetColumn.insertBefore(actualElement, mouseUpItem);  
-  //   }  
-  // } 
-
   // Сброс стилей и завершение перетаскивания  
-  actualElement.style.transform = '';
-  // actualElement.style.top = '';  
-  // actualElement.style.left = '';  
+  actualElement.style.top = '';
+  actualElement.style.left = '';
   actualElement.classList.remove('dragged');
   actualElement = null; // Сбрасываем текущий элемент  
 
