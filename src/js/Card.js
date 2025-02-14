@@ -13,7 +13,7 @@ export default class Card {
     close.className = 'btn-item-close disable';
     close.textContent = 'x';
 
-    // вешанье слушателя при создании элемента
+    // вешает слушатель при создании элемента
     li.addEventListener('mouseover', (e) => {
       li.querySelector('.btn-item-close').classList.remove('disable');
     });

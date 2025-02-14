@@ -138,8 +138,8 @@ const onMouseOver = (e) => {
   const newY = e.clientY - offsetY;
 
   // Установка позиции элемента  
-  actualElement.style.left = `${newX}px`;
-  actualElement.style.top = `${newY}px`;
+  actualElement.style.left = `${newX + initialX}px`;
+  actualElement.style.top = `${newY + initialY}px`;
 };
 
 const onMouseUp = (e) => {
@@ -182,9 +182,9 @@ itemsElements.forEach((el) => {
 itemsElements.forEach((el) => {
   el.addEventListener('mouseup', (e) => {
     // команда e.stopPropagation(); позволяет удалять и кнопки с X, но тогда ломается перемещение элементов.
-    // e.stopPropagation(); 
     if (e.target.matches('.btn-item-close')) {
       if (el) {
+        e.stopPropagation();
         el.remove();
       }
     }
