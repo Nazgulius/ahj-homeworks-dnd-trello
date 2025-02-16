@@ -867,11 +867,26 @@ trelloListAll.forEach((el, i) => {
 });
 const card = new Card();
 const addAnotherForm = document.querySelector('.btn-add-form');
+const addAnotherForm0 = document.querySelector('.btn-add-form0');
+const addAnotherForm1 = document.querySelector('.btn-add-form1');
+const addAnotherForm2 = document.querySelector('.btn-add-form2');
 const addAnotherFormAll = document.querySelectorAll('.btn-add-form');
 const addItem = document.querySelector('.btn-add');
+const addItem0 = document.querySelector('.btn-add0');
+const addItem1 = document.querySelector('.btn-add1');
+const addItem2 = document.querySelector('.btn-add2');
 const formClose = document.querySelector('.btn-add-close');
+const formClose0 = document.querySelector('.btn-add-close0');
+const formClose1 = document.querySelector('.btn-add-close1');
+const formClose2 = document.querySelector('.btn-add-close2');
 const formAdd = document.querySelector('.form');
+const formAdd0 = document.querySelector('.form0');
+const formAdd1 = document.querySelector('.form1');
+const formAdd2 = document.querySelector('.form2');
 const textCard = document.querySelector('.form-textarea');
+const textCard0 = document.querySelector('.form-textarea0');
+const textCard1 = document.querySelector('.form-textarea1');
+const textCard2 = document.querySelector('.form-textarea2');
 
 // в этом блоке я пытался реализовать добавление слушателей на каждую форму с кнопками, 
 // под каждым блоком. Неполучилось.
@@ -912,39 +927,94 @@ const textCard = document.querySelector('.form-textarea');
 //   clearForm();
 // });
 
-// // показать форму
-addAnotherForm.addEventListener('click', e => {
+// показать форму
+
+addAnotherForm0.addEventListener('click', e => {
   e.preventDefault();
-  formAdd.classList.remove('disable'); // показываем форму
-  addAnotherForm.classList.add('disable'); // прячем кнопку
+  formAdd0.classList.remove('disable'); // показываем форму
+  addAnotherForm0.classList.add('disable'); // прячем кнопку
+});
+addAnotherForm1.addEventListener('click', e => {
+  e.preventDefault();
+  formAdd1.classList.remove('disable'); // показываем форму
+  addAnotherForm1.classList.add('disable'); // прячем кнопку
+});
+addAnotherForm2.addEventListener('click', e => {
+  e.preventDefault();
+  formAdd2.classList.remove('disable'); // показываем форму
+  addAnotherForm2.classList.add('disable'); // прячем кнопку
 });
 
 // добавляет элемент в список
-addItem.addEventListener('click', e => {
+addItem0.addEventListener('click', e => {
   e.preventDefault();
-  if (textCard.value === '') {
-    formAdd.classList.add('disable'); // прячем форму
-    addAnotherForm.classList.remove('disable'); // показываем кнопку    
+  if (textCard0.value === '') {
+    formAdd0.classList.add('disable'); // прячем форму
+    addAnotherForm0.classList.remove('disable'); // показываем кнопку    
     return;
   }
   ;
   card.createCard();
-  formAdd.classList.add('disable'); // прячем форму
-  addAnotherForm.classList.remove('disable'); // показываем кнопку
-  clearForm();
+  formAdd0.classList.add('disable'); // прячем форму
+  addAnotherForm0.classList.remove('disable'); // показываем кнопку
+  clearForm0();
+});
+addItem1.addEventListener('click', e => {
+  e.preventDefault();
+  if (textCard1.value === '') {
+    formAdd1.classList.add('disable'); // прячем форму
+    addAnotherForm1.classList.remove('disable'); // показываем кнопку    
+    return;
+  }
+  ;
+  card.createCard();
+  formAdd1.classList.add('disable'); // прячем форму
+  addAnotherForm1.classList.remove('disable'); // показываем кнопку
+  clearForm1();
+});
+addItem2.addEventListener('click', e => {
+  e.preventDefault();
+  if (textCard2.value === '') {
+    formAdd2.classList.add('disable'); // прячем форму
+    addAnotherForm2.classList.remove('disable'); // показываем кнопку    
+    return;
+  }
+  ;
+  card.createCard();
+  formAdd2.classList.add('disable'); // прячем форму
+  addAnotherForm2.classList.remove('disable'); // показываем кнопку
+  clearForm2();
 });
 
 // закрывает форму
-formClose.addEventListener('click', e => {
+formClose0.addEventListener('click', e => {
   e.preventDefault();
-  formAdd.classList.add('disable'); // прячем форму
-  addAnotherForm.classList.remove('disable'); // показываем кнопку
-  clearForm();
+  formAdd0.classList.add('disable'); // прячем форму
+  addAnotherForm0.classList.remove('disable'); // показываем кнопку
+  clearForm0();
+});
+formClose1.addEventListener('click', e => {
+  e.preventDefault();
+  formAdd1.classList.add('disable'); // прячем форму
+  addAnotherForm1.classList.remove('disable'); // показываем кнопку
+  clearForm1();
+});
+formClose2.addEventListener('click', e => {
+  e.preventDefault();
+  formAdd2.classList.add('disable'); // прячем форму
+  addAnotherForm2.classList.remove('disable'); // показываем кнопку
+  clearForm2();
 });
 
 // очищает форму
-function clearForm() {
-  textCard.value = '';
+function clearForm0() {
+  textCard0.value = '';
+}
+function clearForm1() {
+  textCard1.value = '';
+}
+function clearForm2() {
+  textCard2.value = '';
 }
 
 // блок с перемещением элементов внутри main
