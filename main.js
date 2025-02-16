@@ -821,7 +821,7 @@ class Card {
   constructor() {}
 
   //  добавление элемента в список
-  createCard() {
+  createCard(i) {
     const li = document.createElement('li');
     li.className = 'items-item';
     li.textContent = document.querySelector('.form-textarea').value;
@@ -847,7 +847,7 @@ class Card {
       }
     });
     li.appendChild(close);
-    document.querySelector('.items').appendChild(li);
+    document.querySelector('.items' + i).appendChild(li);
   }
 
   // в видео было упоминание о необходимости такого метода, у меня он уехал в app.js
