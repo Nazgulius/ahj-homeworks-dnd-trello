@@ -3,9 +3,9 @@ export default class Form {
 
   }
 
-  createForm() {
+  createForm(i) {
     const form = document.createElement('form');
-    form.className = 'form disable';
+    form.className = 'form disable form' + i;
     
     const textarea = document.createElement('textarea');
     textarea.className = 'form-textarea';
