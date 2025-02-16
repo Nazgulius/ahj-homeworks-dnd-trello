@@ -34,48 +34,7 @@ const textCard0 = document.querySelector('.form-textarea0');
 const textCard1 = document.querySelector('.form-textarea1');
 const textCard2 = document.querySelector('.form-textarea2');
 
-// в этом блоке я пытался реализовать добавление слушателей на каждую форму с кнопками, 
-// под каждым блоком. Неполучилось.
-
-// addAnotherFormAll.forEach((el) => {
-//   // показать форму  
-//   el.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     const formAdd = document.querySelector('.form');
-
-//     formAdd.classList.remove('disable'); // показываем форму
-//     el.classList.add('disable'); // прячем кнопку
-//   });
-// });
-
-  // добавляет элемент в список
-  // addItem.addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   if (textCard.value === '') {
-  //     formAdd.classList.add('disable'); // прячем форму
-  //     addAnotherForm.classList.remove('disable'); // показываем кнопку    
-  //     return;
-  //   };
-
-  //   card.createCard();
-
-  //   formAdd.classList.add('disable'); // прячем форму
-  //   addAnotherForm.classList.remove('disable'); // показываем кнопку
-  //   clearForm();
-  // });
-
-  // // закрывает форму
-  // formClose.addEventListener('click', (e) => {
-  //   e.preventDefault();
-
-  //   formAdd.classList.add('disable'); // прячем форму
-  //   addAnotherForm.classList.remove('disable'); // показываем кнопку
-  //   clearForm();
-  // });
-
-
 // показать форму
-
 addAnotherForm0.addEventListener('click', (e) => {
   e.preventDefault();
 
@@ -196,8 +155,6 @@ itemsAll.forEach((items) => {
     const rect = actualElement.getBoundingClientRect();
     offsetX = e.clientX ;
     offsetY = e.clientY ;
-    // offsetX = e.clientX + rect.left;
-    // offsetY = e.clientY + rect.top;
 
     // Устанавливаем начальную позицию  
     initialX = rect.left;
@@ -212,14 +169,12 @@ const onMouseOver = (e) => {
   if (!actualElement) return;
 
   // Устанавливаем новую позицию  
-  const newX = e.clientX - offsetX;
-  const newY = e.clientY - offsetY;
+  const newX = e.clientX - offsetX + initialX;
+  const newY = e.clientY - offsetY + initialY;
 
   // Установка позиции элемента  
-  // actualElement.style.left = `${newX + initialX}px`;
-  // actualElement.style.top = `${newY + initialY}px`;
-  actualElement.style.left = `${e.clientX - offsetX + initialX}px`;
-  actualElement.style.top = `${e.clientY - offsetY + initialY}px`;
+  actualElement.style.left = `${newX}px`;
+  actualElement.style.top = `${newY}px`;
 };
 
 const onMouseUp = (e) => {
