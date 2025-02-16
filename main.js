@@ -1001,7 +1001,7 @@ itemsAll.forEach(items => {
     initialX = rect.left;
     initialY = rect.top;
     document.documentElement.addEventListener('mouseup', onMouseUp);
-    document.documentElement.addEventListener('mouseover', onMouseOver);
+    document.documentElement.addEventListener('mousemove', onMouseOver);
   });
 });
 const onMouseOver = e => {
