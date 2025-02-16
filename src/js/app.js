@@ -108,7 +108,7 @@ addItem0.addEventListener('click', (e) => {
 
   formAdd0.classList.add('disable'); // прячем форму
   addAnotherForm0.classList.remove('disable'); // показываем кнопку
-  clearForm();
+  clearForm0();
 });
 addItem1.addEventListener('click', (e) => {
   e.preventDefault();
@@ -122,7 +122,7 @@ addItem1.addEventListener('click', (e) => {
 
   formAdd1.classList.add('disable'); // прячем форму
   addAnotherForm1.classList.remove('disable'); // показываем кнопку
-  clearForm();
+  clearForm1();
 });
 addItem2.addEventListener('click', (e) => {
   e.preventDefault();
@@ -136,7 +136,7 @@ addItem2.addEventListener('click', (e) => {
 
   formAdd2.classList.add('disable'); // прячем форму
   addAnotherForm2.classList.remove('disable'); // показываем кнопку
-  clearForm();
+  clearForm2();
 });
 
 // закрывает форму
