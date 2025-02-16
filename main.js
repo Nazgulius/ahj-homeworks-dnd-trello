@@ -1052,8 +1052,10 @@ const onMouseOver = e => {
   const newY = e.clientY - offsetY;
 
   // Установка позиции элемента  
-  actualElement.style.left = `${newX + initialX}px`;
-  actualElement.style.top = `${newY + initialY}px`;
+  // actualElement.style.left = `${newX + initialX}px`;
+  // actualElement.style.top = `${newY + initialY}px`;
+  actualElement.style.left = `${offsetX + initialX}px`;
+  actualElement.style.top = `${offsetY + initialY}px`;
 };
 const onMouseUp = e => {
   if (!actualElement) return;
