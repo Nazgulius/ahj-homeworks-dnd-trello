@@ -1030,7 +1030,7 @@ const onMouseUp = e => {
   actualElement = null; // Сбрасываем текущий элемент  
 
   document.documentElement.removeEventListener('mouseup', onMouseUp);
-  document.documentElement.removeEventListener('mouseover', onMouseOver);
+  document.documentElement.removeEventListener('mousemove', onMouseOver);
 };
 
 // показываем или скрываем кнопку закрытия
