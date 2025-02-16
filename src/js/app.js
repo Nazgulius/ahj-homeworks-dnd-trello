@@ -194,8 +194,10 @@ itemsAll.forEach((items) => {
 
     // Вычисляем начальную позицию в момент нажатия  
     const rect = actualElement.getBoundingClientRect();
-    offsetX = e.clientX + rect.left;
-    offsetY = e.clientY + rect.top;
+    offsetX = e.clientX ;
+    offsetY = e.clientY ;
+    // offsetX = e.clientX + rect.left;
+    // offsetY = e.clientY + rect.top;
 
     // Устанавливаем начальную позицию  
     initialX = rect.left;
