@@ -104,7 +104,7 @@ addItem0.addEventListener('click', (e) => {
     return;
   };
 
-  card.createCard();
+  card.createCard(0);
 
   formAdd0.classList.add('disable'); // прячем форму
   addAnotherForm0.classList.remove('disable'); // показываем кнопку
@@ -118,7 +118,7 @@ addItem1.addEventListener('click', (e) => {
     return;
   };
 
-  card.createCard();
+  card.createCard(1);
 
   formAdd1.classList.add('disable'); // прячем форму
   addAnotherForm1.classList.remove('disable'); // показываем кнопку
@@ -132,7 +132,7 @@ addItem2.addEventListener('click', (e) => {
     return;
   };
 
-  card.createCard();
+  card.createCard(2);
 
   formAdd2.classList.add('disable'); // прячем форму
   addAnotherForm2.classList.remove('disable'); // показываем кнопку
