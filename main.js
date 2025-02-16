@@ -862,8 +862,8 @@ class Card {
 // создание формы
 const app_form = new Form();
 const trelloListAll = document.querySelectorAll('.trello-list');
-trelloListAll.forEach(el => {
-  el.appendChild(app_form.createForm()); // добавляем форму  
+trelloListAll.forEach((el, i) => {
+  el.appendChild(app_form.createForm(i)); // добавляем форму  
 });
 const card = new Card();
 const addAnotherForm = document.querySelector('.btn-add-form');
