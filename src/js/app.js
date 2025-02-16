@@ -6,8 +6,8 @@ import Card from './Card';
 // создание формы
 const form = new Form();
 const trelloListAll = document.querySelectorAll('.trello-list');
-trelloListAll.forEach((el) => {
-  el.appendChild(form.createForm()); // добавляем форму  
+trelloListAll.forEach((el, i) => {
+  el.appendChild(form.createForm(i)); // добавляем форму  
 });
 
 const card = new Card();
