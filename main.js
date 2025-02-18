@@ -986,6 +986,14 @@ let offsetY = 0; // Смещение по Y
 let initialX = 0; // Начальная позиция по X  
 let initialY = 0; // Начальная позиция по Y  
 
+// создфём тень и скрываем её
+const divShadow = document.createElement('div');
+divShadow.className = 'shadow hidden';
+divShadow.style.background = 'rgba(0, 0, 0, 0.5)';
+divShadow.style.width = '280px';
+divShadow.style.height = '200px';
+divShadow.style.position = 'absolute'; // чтобы позиционировать
+
 itemsAll.forEach(items => {
   items.addEventListener('mousedown', e => {
     e.preventDefault();
@@ -996,15 +1004,27 @@ itemsAll.forEach(items => {
     const rect = actualElement.getBoundingClientRect();
     offsetX = e.clientX;
     offsetY = e.clientY;
+    divShadow.style.width = `${rect.width}px`; // Установка ширины тени  
+    divShadow.style.height = `${rect.height}px`; // Установка высоты тени  
+    divShadow.classList.remove('hidden'); // показываем тень
+    document.body.appendChild(divShadow); // Добавляем тень в body 
 
     // Устанавливаем начальную позицию  
     initialX = rect.left;
     initialY = rect.top;
+    const mouseUpItem = document.elementFromPoint(e.clientX, e.clientY);
+    const targetColumn = mouseUpItem ? mouseUpItem.closest('.items') : null;
+    //targetColumn.insertBefore(divShadow, mouseUpItem);
+
     document.documentElement.addEventListener('mouseup', onMouseUp);
-    document.documentElement.addEventListener('mousemove', onMouseOver);
+    document.documentElement.addEventListener('mousemove', onMouseMove);
+    document.documentElement.addEventListener('mouseover', onMouseOver);
+    itemsAll.forEach(item => {
+      item.addEventListener('mouseover', onItemHover);
+    });
   });
 });
-const onMouseOver = e => {
+const onMouseMove = e => {
   if (!actualElement) return;
 
   // Устанавливаем новую позицию  
@@ -1014,6 +1034,74 @@ const onMouseOver = e => {
   // Установка позиции элемента  
   actualElement.style.left = `${newX}px`;
   actualElement.style.top = `${newY}px`;
+};
+const onMouseOver = e => {
+  if (!divShadow) return;
+
+  // Устанавливаем новую позицию тени
+  const newX = e.clientX - offsetX + initialX;
+  const newY = e.clientY - offsetY + initialY;
+
+  // Установка позиции элемента тень
+  // divShadow.style.left = `${newX}px`;
+  // divShadow.style.top = `${newY}px`;
+};
+
+// рабочее перемещение тени
+// const onItemHover = (e) => {  
+//   if (!actualElement) return;  
+
+//   const mouseUpItem = e.target.closest('.items-item');  
+//   if (mouseUpItem) {  
+//     // Устанавливаем тень на позицию текущего элемента списка  
+//     const rect = mouseUpItem.getBoundingClientRect();  
+//     divShadow.style.left = `${rect.left}px`;  
+//     divShadow.style.top = `${rect.top}px`; 
+//     divShadow.classList.remove('hidden');  
+
+//     // Вставляем тень перед текущим элементом  
+//     const nextSibling = mouseUpItem.nextElementSibling;  
+//     if (nextSibling) {  
+//       mouseUpItem.parentNode.insertBefore(divShadow, nextSibling);  
+//     } else {  
+//       mouseUpItem.parentNode.appendChild(divShadow); // Если это последний элемент, добавляем в конец  
+//     }  
+//   }  
+// };  
+// тест тени
+const onItemHover = e => {
+  if (!actualElement) return;
+  const mouseUpItem = e.target.closest('.items-item');
+
+  // Проверка на наличие mouseUpItem  
+  if (!mouseUpItem) return;
+  const parentItems = mouseUpItem.parentNode.children;
+
+  // Сброс смещения для всех элементов  
+  for (let item of parentItems) {
+    item.style.transform = 'translateY(0)';
+  }
+
+  // Устанавливаем тень на позицию текущего элемента списка  
+  const rect = mouseUpItem.getBoundingClientRect();
+  divShadow.style.left = `${rect.left}px`;
+  divShadow.style.top = `${rect.top}px`;
+
+  // Вставляем тень перед текущим элементом  
+  const nextSibling = mouseUpItem.nextElementSibling;
+  if (nextSibling) {
+    mouseUpItem.parentNode.insertBefore(divShadow, nextSibling);
+  } else {
+    mouseUpItem.parentNode.appendChild(divShadow); // Если это последний элемент, добавляем в конец  
+  }
+
+  // Смещение всех элементов под тенью  
+  const shadowHeight = divShadow.offsetHeight;
+  for (let item of parentItems) {
+    if (item !== actualElement && item !== divShadow) {
+      item.style.transform = `translateY(${shadowHeight}px)`;
+    }
+  }
 };
 const onMouseUp = e => {
   if (!actualElement) return;
@@ -1029,8 +1117,20 @@ const onMouseUp = e => {
   actualElement.classList.remove('dragged');
   actualElement = null; // Сбрасываем текущий элемент  
 
+  divShadow.classList.add('hidden'); // скрываем тень
+  divShadow.parentNode.removeChild(divShadow); // Удаляем тень из документа  
+
+  // Убираем смещение у всех элементов  
+  const items = targetColumn.children;
+  for (let item of items) {
+    item.style.transform = 'translateY(0)';
+  }
   document.documentElement.removeEventListener('mouseup', onMouseUp);
-  document.documentElement.removeEventListener('mousemove', onMouseOver);
+  document.documentElement.removeEventListener('mousemove', onMouseMove);
+  document.documentElement.removeEventListener('mouseover', onMouseOver);
+  itemsAll.forEach(item => {
+    item.removeEventListener('mouseover', onItemHover);
+  });
 };
 
 // показываем или скрываем кнопку закрытия
