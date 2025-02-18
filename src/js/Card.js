@@ -7,7 +7,7 @@ export default class Card {
   createCard(i) {
     const li = document.createElement('li');
     li.className = 'items-item';
-    li.textContent = document.querySelector('.form-textarea' + i).value;     
+    li.textContent = document.querySelector('.form-textarea' + i).value; 
 
     const close = document.createElement('button');
     close.className = 'btn-item-close disable';

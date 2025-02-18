@@ -130,3 +130,7 @@ body {
   top: 3px;
   right: 3px;
 }
+
+.hidden {
+  display: none;
+}
