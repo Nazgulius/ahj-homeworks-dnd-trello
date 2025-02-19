@@ -866,24 +866,18 @@ trelloListAll.forEach((el, i) => {
   el.appendChild(app_form.createForm(i)); // добавляем форму  
 });
 const card = new Card();
-const addAnotherForm = document.querySelector('.btn-add-form');
 const addAnotherForm0 = document.querySelector('.btn-add-form0');
 const addAnotherForm1 = document.querySelector('.btn-add-form1');
 const addAnotherForm2 = document.querySelector('.btn-add-form2');
-const addAnotherFormAll = document.querySelectorAll('.btn-add-form');
-const addItem = document.querySelector('.btn-add');
 const addItem0 = document.querySelector('.btn-add0');
 const addItem1 = document.querySelector('.btn-add1');
 const addItem2 = document.querySelector('.btn-add2');
-const formClose = document.querySelector('.btn-add-close');
 const formClose0 = document.querySelector('.btn-add-close0');
 const formClose1 = document.querySelector('.btn-add-close1');
 const formClose2 = document.querySelector('.btn-add-close2');
-const formAdd = document.querySelector('.form');
 const formAdd0 = document.querySelector('.form0');
 const formAdd1 = document.querySelector('.form1');
 const formAdd2 = document.querySelector('.form2');
-const textCard = document.querySelector('.form-textarea');
 const textCard0 = document.querySelector('.form-textarea0');
 const textCard1 = document.querySelector('.form-textarea1');
 const textCard2 = document.querySelector('.form-textarea2');
@@ -990,10 +984,7 @@ let initialY = 0; // Начальная позиция по Y
 const divShadow = document.createElement('div');
 divShadow.className = 'shadow hidden';
 divShadow.style.background = 'rgba(0, 0, 0, 0.5)';
-divShadow.style.width = '280px';
-divShadow.style.height = '200px';
-divShadow.style.position = 'absolute'; // чтобы позиционировать
-
+divShadow.style.borderRadius = '5px';
 itemsAll.forEach(items => {
   items.addEventListener('mousedown', e => {
     e.preventDefault();
@@ -1012,10 +1003,6 @@ itemsAll.forEach(items => {
     // Устанавливаем начальную позицию  
     initialX = rect.left;
     initialY = rect.top;
-    const mouseUpItem = document.elementFromPoint(e.clientX, e.clientY);
-    const targetColumn = mouseUpItem ? mouseUpItem.closest('.items') : null;
-    //targetColumn.insertBefore(divShadow, mouseUpItem);
-
     document.documentElement.addEventListener('mouseup', onMouseUp);
     document.documentElement.addEventListener('mousemove', onMouseMove);
     document.documentElement.addEventListener('mouseover', onMouseOver);
@@ -1043,32 +1030,11 @@ const onMouseOver = e => {
   const newY = e.clientY - offsetY + initialY;
 
   // Установка позиции элемента тень
-  // divShadow.style.left = `${newX}px`;
-  // divShadow.style.top = `${newY}px`;
+  divShadow.style.left = `${newX}px`;
+  divShadow.style.top = `${newY}px`;
 };
 
-// рабочее перемещение тени
-// const onItemHover = (e) => {  
-//   if (!actualElement) return;  
-
-//   const mouseUpItem = e.target.closest('.items-item');  
-//   if (mouseUpItem) {  
-//     // Устанавливаем тень на позицию текущего элемента списка  
-//     const rect = mouseUpItem.getBoundingClientRect();  
-//     divShadow.style.left = `${rect.left}px`;  
-//     divShadow.style.top = `${rect.top}px`; 
-//     divShadow.classList.remove('hidden');  
-
-//     // Вставляем тень перед текущим элементом  
-//     const nextSibling = mouseUpItem.nextElementSibling;  
-//     if (nextSibling) {  
-//       mouseUpItem.parentNode.insertBefore(divShadow, nextSibling);  
-//     } else {  
-//       mouseUpItem.parentNode.appendChild(divShadow); // Если это последний элемент, добавляем в конец  
-//     }  
-//   }  
-// };  
-// тест тени
+//  перемещение тени
 const onItemHover = e => {
   if (!actualElement) return;
   const mouseUpItem = e.target.closest('.items-item');
@@ -1087,19 +1053,22 @@ const onItemHover = e => {
   divShadow.style.left = `${rect.left}px`;
   divShadow.style.top = `${rect.top}px`;
 
-  // Вставляем тень перед текущим элементом  
-  const nextSibling = mouseUpItem.nextElementSibling;
-  if (nextSibling) {
-    mouseUpItem.parentNode.insertBefore(divShadow, nextSibling);
+  // Вычисляем центральную точку  
+  const centerY = rect.top + rect.height / 2;
+  if (e.clientY < centerY) {
+    // Если курсор выше центра, вставляем перед элементом  
+    if (mouseUpItem.previousElementSibling) {
+      mouseUpItem.parentNode.insertBefore(divShadow, mouseUpItem);
+    } else {
+      mouseUpItem.parentNode.insertBefore(divShadow, mouseUpItem); // Если это первый элемент, вставляем перед ним  
+    }
   } else {
-    mouseUpItem.parentNode.appendChild(divShadow); // Если это последний элемент, добавляем в конец  
-  }
-
-  // Смещение всех элементов под тенью  
-  const shadowHeight = divShadow.offsetHeight;
-  for (let item of parentItems) {
-    if (item !== actualElement && item !== divShadow) {
-      item.style.transform = `translateY(${shadowHeight}px)`;
+    // Если курсор ниже центра, вставляем после элемента  
+    const nextSibling = mouseUpItem.nextElementSibling;
+    if (nextSibling) {
+      mouseUpItem.parentNode.insertBefore(divShadow, nextSibling);
+    } else {
+      mouseUpItem.parentNode.appendChild(divShadow); // Если это последний элемент, добавляем в конец  
     }
   }
 };
@@ -1117,8 +1086,9 @@ const onMouseUp = e => {
   actualElement.classList.remove('dragged');
   actualElement = null; // Сбрасываем текущий элемент  
 
-  divShadow.classList.add('hidden'); // скрываем тень
-  divShadow.parentNode.removeChild(divShadow); // Удаляем тень из документа  
+  divShadow.style.width = '0px';
+  divShadow.style.height = '0px';
+  divShadow.classList.add('hidden'); // скрываем тень  
 
   // Убираем смещение у всех элементов  
   const items = targetColumn.children;
@@ -1134,7 +1104,6 @@ const onMouseUp = e => {
 };
 
 // показываем или скрываем кнопку закрытия
-// itemsAll.forEach((el) => {
 itemsElements.forEach(el => {
   el.addEventListener('mouseenter', e => {
     if (e.target.matches('.items-item') || e.target.closest('.items-item')) {
@@ -1149,7 +1118,6 @@ itemsElements.forEach(el => {
 });
 
 // Удаляем элемент по клику
-// itemsAll.forEach((el) => {
 itemsElements.forEach(el => {
   el.addEventListener('mouseup', e => {
     // команда e.stopPropagation(); позволяет удалять и кнопки с X, но тогда ломается перемещение элементов.
@@ -1157,6 +1125,7 @@ itemsElements.forEach(el => {
       if (el) {
         e.stopPropagation();
         el.remove();
+        divShadow.classList.add('hidden'); // скрываем тень
       }
     }
   });
